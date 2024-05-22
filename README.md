@@ -297,12 +297,6 @@ HATEOAS를 사용하기 위해서는 pom.xml에
 	- 고성능 요구 작업
 	- 대규모 계산, 머신러닝
 
-### 작동방식
-
-
-
-
-
 
 ## [spring boot]
 ### Swagger Documentation 구현
