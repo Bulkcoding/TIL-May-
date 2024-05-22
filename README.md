@@ -308,3 +308,15 @@ HATEOAS를 사용하기 위해서는 pom.xml에
 | @Schema | Swagger모델에 대한 추가 정보  | 
 | @Operation(summary="",description="") | 특정 경로에 대한 작업   | 
 | @ApiResponse(responseCoded="404",description="") | API에서의 작업 처리에 대한 응답코드 설명  | 
+
+## 05/23
+### [ SQL 문제풀기 - HackerRank ]
+새벽에 자기전 한문제 풀고 잔다
+- 문제 : CITY 테이블에서 POPULATION이 100000보다 크고, COUNTRYCODE가 USA인 모든 쿼리를 출력하라.
+- 답 : 
+```
+select *
+from CITY
+where population > 100000 and countrycode = 'USA'
+```
+- 결과 : 정답
