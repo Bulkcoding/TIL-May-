@@ -320,3 +320,9 @@ from CITY
 where population > 100000 and countrycode = 'USA'
 ```
 - 결과 : 정답
+
+### [nginx 설치]
+프로젝트 배포를 위해 미리 다운로드를 해 보았다. 여러가지 문제가 있어서 해결하는데 오래걸렸고, 해결과정을 티스토리 블로그에 올렸다.
+
+### [spring boot]
+
