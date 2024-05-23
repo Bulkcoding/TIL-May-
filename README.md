@@ -326,3 +326,97 @@ where population > 100000 and countrycode = 'USA'
 
 ### [spring boot]
 
+- Actuature을 이용해서 모니터링과 Metrics를 수집함.
+	1. yml 파일에
+	```
+	management:
+  		endpoints:
+    		web:
+      			exposure:
+        			include: "*"
+	```
+	를 추가 하면 include 안에 정의한 정보들이 보여지게 된다.
+	
+	모든 정보들을 다 보이고 싶으면 include : * 하면 되지만,
+몇가지만 공개하고 싶다면 include : "self, health" 와 같이 입력하면 됨.
+
+
+	예)
+
+	http://localhost:8088/actuator/metrics 는 어떤 메트릭스를 사용하는지 메모리가 얼마나 남았는지 같은 수치정보를 볼 수 있다.
+
+	http://localhost:8088/actuator/beans 는 현재 어떤 bean이 등록되어 있는지 볼 수 있다.
+
+- HAL Explorer를 이용한 API 테스트
+	- HAL Explorer
+	```
+	1. HAL은 API 리소스들 사이에서 필요로 하는 일괄적인 하이퍼링크를 제공하는 방식. API를 설계할때 HAL을 사용하게 됨으로써 API간에 쉽게 검색이 가능하다.
+	2. response 정보에 부가적인 정보를 서비스해줄 수 있다.
+	3. rest 자원을 표시하기 위한 자료를 그때그때 사용하지 않더라도 해태우스 기능을 바로 연결해서 쓸 수 있다.
+	```
+
+
+	http://localhost:8088/explorer/index.html#uri=/actuator
+
+	이걸로 들어가면 json 형식으로 나왔던 코드들이 깔끔하게 페이지에 나온다.
+
+
+- Spring Security를 이용한 인증 처리
+	1. pom.xml에 추가
+	```
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
+	```
+	2. 구동시킬때 나오는 비밀번호로 postman에서 password 입력하면 됨.
+
+- API 사용을 위한 사용자 인증 처리 구현 (2가지의 방법이 있다.)
+	1. application.yml에 security 추가
+	```
+	spring:
+ 	 	message:
+ 	  		 basename: messages
+		security:
+   			 user:
+  	    		name: username
+     	 		password: passw0rd
+	```
+
+	2. 인코딩으로 처리하는 방법
+	```
+	BCryptPasswordEncoder 사용 BCryptPasswordEncoder는 crypt 해싱함수를 사용한다.
+	사용자 비밀번호를 인코딩해주는 메소드하고, 입력한 비밀번호와 저장된 비밀번호가 일치하는지 확인할 수 있는 메소드를 제공해준다.
+	해싱하고자 하는 강도(?) 도 조정할 수 있게 해준다.
+	```
+	1번을 주석처리하고 config 패키지에 SecurityConfig 클래스를 만든다.
+	BCryptPasswordEncoder를 등록하고, 이를 통해 비밀번호의 보안에 적용시킨다.
+	
+
+
+### [ SQL 문제풀기 - HackerRank ]
+3문제 풀었다.
+
+
+### [ 학습의 3단계 ]
+인프런 소개 영상을 듣다가 학습의 3단계라는 것을 배웠다.
+
+> 1단계 : 학습
+
+말 그대로 강의를 듣거나, 책을 읽거나 하는 배우는 것.
+
+> 2단계 : 체득
+
+내가 실제로 기능들을 따라 쳐보면서 체득하는것.
+
+강의를 다 듣고 토이프로젝트를 진행하는 것을 추천!
+
+> 3단계 : 정리
+
+실제로 내가 배운것을 다른사람에게 설명할 수 있을 정도의 단계가 되는것.
+
+-------------------------
+--------------------
+사실 머리로는 알고 있지만 이렇게 정리해보니 더 머리에 잘 들어왔다.
+
+나는 현재 듣고 있는 강의를 듣고(학습), 간단한 rest api 토이프로젝트를 만들것이다.(체득) 그리고 그 과정들에 대한 나만의 고찰과 방식들을 블로그에 소개해보고싶다.(정리)
