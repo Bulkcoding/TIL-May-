@@ -422,3 +422,96 @@ where population > 100000 and countrycode = 'USA'
 사실 머리로는 알고 있지만 이렇게 정리해보니 더 머리에 잘 들어왔다.
 
 나는 현재 듣고 있는 강의를 듣고(학습), 간단한 rest api 토이프로젝트를 만들것이다.(체득) 그리고 그 과정들에 대한 나만의 고찰과 방식들을 블로그에 소개해보고싶다.(정리)
+
+
+## 05/24
+
+### [spring boot]
+
+### ORM (object relational mapping)
+- 객체를 관계형 데이터 베이스에 있는 데이터오 자동으로 매핑해주는 기능
+- sql 문장을 자동으로 생성가능
+
+### JPA (Java Persistence API)
+- 관계형 데이터베이스를 사용하기위한 방식을 정의해 놓은 인터페이스 -> 특정 기능을 사용할 수 있는 라이브러리가 아니다
+- 자바 ORM 기술에 대한 API 표준 명세서 (단순한 명세서) -> 구현되어있는 메소드가 없다. -> JPA를 구현한 구현체가 필요 -> Hibernate
+
+### Hibernate
+- 생산성, 유지보수, 비종속성
+- ORM 기술을 위한 라이브러리 AND JPA와 같은 인터페이스의 구현 클래스들의 집합체
+
+### Spring Data JPA
+- 스프링 모드 중 하나
+- JPA를 추상화한 Repositorty 인터페이스 제공
+- crud를 편하게 개발하도록 crud의 공통적인 인터페이스 제공
+
+### 자바에서는 아래에서 위 순서로 추상화 되어있다.
+|JAVA |
+|:----|
+| Spring Data  |
+| JPA  | 
+| Hibernate |
+| JDBC |
+
+
+### JPA 사용을 위한 Dependency 추가와 Entity 설정
+> H2 데이터베이스를 사용
+
+1. h2 web console 주소 : localhost:8088/h2-console
+2. 야물파일 수정
+
+	```
+	spring:
+		message:
+			basename: messages
+		datasource:
+			url: jdbc:h2:mem:testdb
+			username: sa
+		jpa:
+			show-sql: true                          # 작업되고 있는 sql문장도 로고파일에 보일 수 있도록
+			hibernate:
+				ddl-auto: create-drop               # 나중에 데이터베이스 관련작업에 필요
+			generate-ddl: true
+			defer-datasource-initialization: true   # 스크립트 파일(저장하고 싶은 데이터만 모아저있는 파일)이 있을경우,
+													# 하이버네이트 초기화 이후에 바로 작동할 수 있도록 설정.
+		h2:
+			console:
+				enabled: true                       # 사용가능하도록
+				settings:
+					web-allow-others: true          # 웹 페이지에서 콘솔을 사용할 수 있도록 제공
+	```
+
+> 테이블 생성
+
+- h2 연결하고 (jpa가 매핑시켜준것임)
+- user클래스에 @Entity라는 어노테이션을 적용해준다.
+- user라는 클래스 이름으로써 데이터베이스 테이블이 생성됨 -> 인스턴스들로 컬럼구성
+- 기본키로 적용시키고 싶은 인스턴스 위에 @Id라고 적으면 기본키가 됨
+- 그 밑에 @GeneratedValue를 적으면 "이 값은 자동으로 생성되는 값입니다." 라는 의미가 됨.
+- @Table(name = "users") 라고 적으면 테이블 이름이 users로 변경됨.
+
+-> h2 사이트에서 나갔다가 다시 연결하면 테이블이 생성된 것을 확인 할 수 있다.
+
+### Spring Data JPA를 이용한 초기 데이터 생성
+
+- Spring Data JPA를 이용한 초기 데이터 생성
+
+
+### JPA Service 구현을 위한 Controller, Repository 생성
+- 새로운 패키지 생성(repository)
+- 그 안에 UserRepository 인터페이스를 만들고 JpaRepository 인터페이스를 상속한다.
+
+### JPA를 이용한 개별 사용자 상세 조회 - HTTP Get method
+- id 값을 uri에 추가해서 한 명의 정보만 받아오기!
+
+### JPA를 이용한 사용자 추가와 삭제 - HTTP POST/DELETE method
+- update, delete 기능들은 그냥 작동되지 않는다. security를 해야한다. -> securityconfig로 이동
+
+
+
+
+
+
+
+
+		
