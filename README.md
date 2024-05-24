@@ -121,7 +121,7 @@ On demand 서비스 사용할 때 클라우드 컴퓨팅 서비스 사용자와 
 
 MappingJacksonValue는 JSON Serialization(직렬화)을 처리하는 데 사용되며, 주로 Spring MVC(혹은 Spring  WebFlux) 기반의 웹 애플리케이션에서 Java 객체를 JSON으로 변환하거나, 반대로 JSON 데이터를 Java 객체로 변환하는 데 매우 효율적이고 강력한 라이브러리. 
  
-일반적으로 컨트롤러 메서드에서 반환되는 데이터를 래핑하는데 사용되며, 이를 통해 특정 필터링 기능이나 시리얼라이제이션(Serialization) 설정을 적용하여 응답 데이터를 제어할 수 있습니다.
+일반적으로 컨트롤러 메서드에서 반환되는 데이터를 래핑하는데 사용되며, 이를 통해 특정 필터링 기능이나 직렬(Serialization) 설정을 적용하여 응답 데이터를 제어할 수 있습니다.
 
 
 즉, 특정 사용자나 상황에 따라 다른 응답을 제공할 때 유용한 것이다. 
@@ -229,13 +229,6 @@ HATEOAS를 사용하기 위해서는 pom.xml에
 | Amazon DynamoDB  |  NoSQL 서비스로 대용량의 데이터를 저장,분석  |
 | Amazon ElasticCache | In-memory 기반의 Cache 서비스.  | 
 
-> 분석 플랫폼
-
-|서비스 |설명|
-|:----|:----:|
-| Amazon S3  |  클라우드 기반의 DNS(Domain Name System)  |
-| Amazon DynamoDB  |  NoSQL 서비스로 대용량의 데이터를 저장,분석  |
-| Amazon ElasticCache | In-memory 기반의 Cache 서비스.  | 
 
 > AWS CloudWatch 서비스
 
@@ -309,6 +302,12 @@ HATEOAS를 사용하기 위해서는 pom.xml에
 | @Operation(summary="",description="") | 특정 경로에 대한 작업   | 
 | @ApiResponse(responseCoded="404",description="") | API에서의 작업 처리에 대한 응답코드 설명  | 
 
+
+### Swagger 들어가는법
+http://localhost:8088/swagger-ui/index.html#/
+
+여기로 들어가면 됨.
+
 ## 05/23
 ### [ SQL 문제풀기 - HackerRank ]
 새벽에 자기전 한문제 풀고 잔다
@@ -333,7 +332,7 @@ where population > 100000 and countrycode = 'USA'
   		endpoints:
     		web:
       			exposure:
-        			include: "*"
+        		include: "*"
 	```
 	를 추가 하면 include 안에 정의한 정보들이 보여지게 된다.
 	
@@ -350,7 +349,8 @@ where population > 100000 and countrycode = 'USA'
 - HAL Explorer를 이용한 API 테스트
 	- HAL Explorer
 	```
-	1. HAL은 API 리소스들 사이에서 필요로 하는 일괄적인 하이퍼링크를 제공하는 방식. API를 설계할때 HAL을 사용하게 됨으로써 API간에 쉽게 검색이 가능하다.
+	1. HAL은 API 리소스들 사이에서 필요로 하는 일괄적인 하이퍼링크를 제공하는 방식. 
+	API를 설계할때 HAL을 사용하게 됨으로써 API간에 쉽게 검색이 가능하다.
 	2. response 정보에 부가적인 정보를 서비스해줄 수 있다.
 	3. rest 자원을 표시하기 위한 자료를 그때그때 사용하지 않더라도 해태우스 기능을 바로 연결해서 쓸 수 있다.
 	```
@@ -371,6 +371,8 @@ where population > 100000 and countrycode = 'USA'
 	```
 	2. 구동시킬때 나오는 비밀번호로 postman에서 password 입력하면 됨.
 
+	![Alt text](<spring 4_9.png>)
+
 - API 사용을 위한 사용자 인증 처리 구현 (2가지의 방법이 있다.)
 	1. application.yml에 security 추가
 	```
@@ -386,7 +388,7 @@ where population > 100000 and countrycode = 'USA'
 	2. 인코딩으로 처리하는 방법
 	```
 	BCryptPasswordEncoder 사용 BCryptPasswordEncoder는 crypt 해싱함수를 사용한다.
-	사용자 비밀번호를 인코딩해주는 메소드하고, 입력한 비밀번호와 저장된 비밀번호가 일치하는지 확인할 수 있는 메소드를 제공해준다.
+	사용자 비밀번호를 인코딩해주는 메소드와, 입력한 비밀번호와 저장된 비밀번호가 일치하는지 확인할 수 있는 메소드를 제공해준다.
 	해싱하고자 하는 강도(?) 도 조정할 수 있게 해준다.
 	```
 	1번을 주석처리하고 config 패키지에 SecurityConfig 클래스를 만든다.
