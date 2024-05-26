@@ -508,6 +508,17 @@ where population > 100000 and countrycode = 'USA'
 - update, delete 기능들은 그냥 작동되지 않는다. security를 해야한다. -> securityconfig로 이동
 
 
+## 05/26
+
+### [ SQL 문제풀기 - HackerRank ]
+- CITY 테이블에서 COUNTRYCODE가 JPN인 모든 정보를 가져와라.
+- CITY 테이블에서 COUNTRYCODE가 JPN인 이름 정보를 가져와라.
+- STATION 테이블에서 CITY 와 STATE 정보를 가져와라.
+- STATION 테이블에서 CITY 와 ID 정보를 가져와라. (단, 중복정보는 제외하고 ID번호는 짝수)
+	- 짝수 홀수 구하는 방법을 까먹었다...
+	- 짝수 : MOD(컬럼명, 2) = 0
+	- 홀수 : MOD(컬럼명, 2) = 1
+
 
 
 
