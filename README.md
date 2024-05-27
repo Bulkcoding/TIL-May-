@@ -519,6 +519,70 @@ where population > 100000 and countrycode = 'USA'
 	- 짝수 : MOD(컬럼명, 2) = 0
 	- 홀수 : MOD(컬럼명, 2) = 1
 
+## 05/27
+
+
+### [ SQL 문제풀기 - HackerRank ]
+
+- STATION 테이블에서 CITY 컬럼의 전체 항목 수와 중복되지않는 CITY의 차를 구해라.
+	- count와 distinct를 쓰는것이 관건
+- 가장 길고 가장 짧은 CITY를 출력. 가장 짧거나 가장 긴 이름의 CITY가 두 개 이상인 경우 알파벳 순으로 먼저나온 CITY를 선택해라.
+
+
+
+
+### [spring boot]
+<br>
+
+- 게시물 관리를 위한 Post Entity 추가와 초기 데이터 생성
+	> @Entity
+
+	@Entity 어노테이션을 달면, jpa에서 해당하는 클래스를읽어들이고 이 정보를 토대로 db를 생성.
+	<br><br>
+
+
+	> User와 Post는 1:N의 관계성을 가진다.
+		
+		1. user 한 명이 게시물 여러개 작성 가능
+		2. user 한 명이 게시물 0개 작성 가능
+
+		3. user가 없는데 게시물 존재 불가능
+		4. 여러명의 user가 하나의 게시물 작성 불가능
+	<br>
+
+	> @OneToMany
+
+	User 클래스에 @OneToMany(mappedBy = "One(맨앞) 이 누구냐")
+
+	<br>
+
+	> @ManyToOne
+
+	Post 클래스에 @ManyToOne(fetch = FetchType.LAZY)
+
+	LAZY는 지연로딩 : post 데이터가 사용자 데이터를 조회할때 매번 post데이터를 즉시 가져오는 것이 아니라 post가 로딩되는 시점에.
+	즉, 필요한 시점에 즉시 가져오기위함.
+
+	원래 jpa에서 연관관계에 있는 엔티티들은 즉시 로딩을 하기 위해서 EAGER라는 옵션으로 되어있는데, getposts()라는 요청을 하게 됐을때, 그때 사용되는 시점에 post의 엔티티들을 가져올 수 있끔 로딩 방식을 천천히 가져오겠다. 라는 뜻이다.
+
+	<br>
+
+	> @OneToMany
+
+	@OneToMany 는 부모와 자식테이블에도 사용할 수있다.
+	<br><br>
+	부모테이블은 @OneToMany<br>
+	자식테이블은 @ManyToOne 을 쓰는게 일반적
+
+
+
+### 과제 해결하는 과정
+https://hyeonic.tistory.com/197
+
+ResponseEntity 공부하기
+
+### 
+
 
 
 
