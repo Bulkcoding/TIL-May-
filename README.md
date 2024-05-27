@@ -527,7 +527,31 @@ where population > 100000 and countrycode = 'USA'
 - STATION 테이블에서 CITY 컬럼의 전체 항목 수와 중복되지않는 CITY의 차를 구해라.
 	- count와 distinct를 쓰는것이 관건
 - 가장 길고 가장 짧은 CITY를 출력. 가장 짧거나 가장 긴 이름의 CITY가 두 개 이상인 경우 알파벳 순으로 먼저나온 CITY를 선택해라.
+	- 간만에 까다로웠던 문제
+	```c#
+	select *
+	from
+	(
+		select city, length(city) // 문자열 길이
+		from station
+		where length(city) = (select min(length(city)) from station) // 가장 길이가 긴 city 찾기
+		order by city asc
+	)
+	where rownum = 1;		// 첫 행만 나오도록
 
+	select *
+	from
+	(
+		select city ,length(city) // 문자열 길이
+		from station
+		where length(city) = (select min(length(city)) from station) // 가장 길이가 짧은 city 찾기
+		where length(city) = (select max(length(city)) from station)
+		order by city asc
+	)
+	where rownum = 1;		// 첫 행만 나오도록
+
+	```
+<br>
 
 
 
