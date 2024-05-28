@@ -605,7 +605,14 @@ https://hyeonic.tistory.com/197
 
 ResponseEntity 공부하기
 
-### 
+<br><br>
+
+## 05/28
+
+### [ SQL 문제풀기 - HackerRank ]
+
+- STATION 테이블에서 a,e,i,o,u 로 시작하는 CITY를 출력해라.
+	- in 연산자를 사용. 값이 계속 안나오길래 뭐지? 생각했는데, 대문자 A,E,I,O,U로 하니 값이 제대로 나왔다.
 
 
 
