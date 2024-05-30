@@ -634,8 +634,95 @@ Spring 에서는 Spring-JPA를 통해(DBMS 종류에 상관 없이) JDBC API를 
 
 원래 MySQL, Oracle과 같은 DBMS는 각각 드라이버를 가지고 있고, 개발자들은 각각의 요구방식에 따라 쿼리문을 적을 필요가 있었지만 JDBC가 DB 드라이버들의 작성방식을 통일시켜 API로 명세했기에 그런 수고를 덜어주었다.
 
-## ORM ( Object Relational Mapping )
+<br><br>
+
+### ORM ( Object Relational Mapping )
 
 객체와 RDB의 데이터를 자동으로 매핑해주어, 객체간의 관계를 바탕으로 SQL문을 자동으로 생성해준다. 즉, 객체는 객체대로 RDB는 RDB에 맞게 설계할 수 있도록 도와다. 따라서 개발자는 ORM을 이용해 직관적인 코드로 데이터를 조작할 수 있게 된다.
 
+<br><br>
+
+### Spring Seurity
+
+Spring 기반의 어플리케이션의 보안(인증,인가 등)을 담담하는 스프링 하위 프레임워크이다. Spring Security는 '인증'과 '권한'에 대한 부분을 Filter와 흐름에 따라 처리하고 있다.
+
+Filter는 Dispatcher Servlet으로 가기전에 적용되므로 가장 먼저 URL 요청을 받지만, Interceptor는 Dispatcher와 Controller 사이에 위치한다는 점에서 적용시기의 차이가 있다.
+
+![Alt text](img.png)
+
+<br>
+
+Spring Security는 보안과 관련해서 체계적으로 많은 옵션을 제공해주기 때문에 개발자 입장에서 일일일 보안 관련 로직을 작성하지 않아도 된다는 장점이 있다.
+
+- 기본용어
+	1. principal(접근주체) : 접근하는 대상.(User)
+	2. Authentication(인증) : 리소스에 접근한 User가 누구인지 식별.
+	3. Authorize(접근) : 접근한 User가 리소스에 접근 권한이 있는지 검사.
+
+<br>
+
+>매커니즘
+
+Spirng Security 는 Filter 구조이다. 사용자의 정보가 여러체이닝된 Filter들을 거친다. 예를들어 OAuth2.0 인증을 시도하려고 할때 A라는 Filter는 OAuth2.0 인증을 실시 할 수 없으니 인증되지 않고 다음 Filter로 넘어간다. 그 후, 다른 Filter인 B라는 Filter에서 OAuth2.0 을 이용한 인증을 진행한다.
+
+따라서 여러 Filter를 거치면서 인증을 진행하게 되고, 앞선 Filter에서 인증이 완료되면 뒤에 따라오는 필터에 걸리지 않고, 그래도 인증된 사용자가 된다. 만약 아무런 Filter도 완료하지 못했다면 인증되지 않는 요청이 된다.
+
+
+<br>
+
+> 예제1
+
+pom.xml에서 stater-security 라는 dependency를 추가하고 실행을 하면 console에 비밀번호가 생성된다. 이 비밀번호를 가지고 postman에 들어가서 Authorization - basic auth 를 들어가서 password에 입력하면 정상조회가 가능하다.
+
+<br>
+
+> 예제2
+
+application.yml에 security-user에 username과 password를 입력하면 고정적인 인증처리를 할 수 있다.
+
+<br>
+
+> 예제3
+
+@Configuration 어노테이션을 등록한 클래스 안에 UserDetailService라는 Bean을 등록하고 UserDetails 라는 객체를 이용해 메모리 스토리지에 텍스트 형태의 User와 password를 넣고 반환한다. 비밀번호는 BcryptPasswordEncoder를 Bean으로 등록 후, encode 함수를 이용해 입력한 비밀번호와 저장된 비밀번호가 일치하는지 확인해주도록 하면 postman에 인증작업을 할 수 있다.
+
+<br>
+
+### JWT ( Json Web Token )
+
+클라이언트와 서버, 서비스와 서비스 사이 api를 주고 받을때 권한 인가를 사용하는 토큰이다. Json 객체를 암호화하여 만든 String 값. 암호화 되어 있어서 변조하기 어려운 정보다. 토큰 자체에 데이터를 가지고 있다. 서버에서는 로그인이 완료된 클라이언트에게 회원을 구분할 수 있는 값을 넣은 JWT를 생성/발급한다.
+
+<br>
+
+> 매커니즘
+
+1. 로그인시, ID,PW를 실어서 서버로 보낸다.
+2. 서버는 검증이 끝나면 토큰을 생성해서 클라이언트에게 토큰을 응답한다.
+3. 클라이언트는 앞으로 로그인을 제외한 다른 api를 요청할 때마다 header에 토큰을 실어 보낸다.
+4. 서버는 다시 header에 실려온 토큰을 검증후 인증되면 응답해준다.
+
+
+<br>
+
+> 구조
+```
+Headr.Payload.Signature 
+```
+점(.) 을 기준으로 세 부분으로 구분된다.
+
+
+- Header
+	- JWT를 어떻게 검증하는가에 대한 내용을 담고 있다.
+
+- Payload
+	- JWT의 내용. payload에 있는 속성들을 클레임 셋 이라고 부른다.
+	- 클레임 셋은 JWT에 대한 내용이나 클라이언트와 서버간에 주고 받기로 한 값들로 구성된다.
+
+- Signature
+
+	- Header와 Payload를 합친 문자열을 서명한 것이다.
+
+<br>
+
+## 05/30
 
