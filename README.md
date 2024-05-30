@@ -738,5 +738,5 @@ Headr.Payload.Signature
 Spring Security와 JWT는 서로 상호 보완적으로 사용할 수도 있다. 예를 들어, Spring Security를 사용하여 초기 인증 및 권한 부여를 수행한 후 JWT를 발급하고, 이후 요청에 대해 JWT를 검증하는 방식으로 사용할 수 있다. 이를 통해 Spring Security의 포괄적인 보안 기능과 JWT의 확장성을 동시에 활용 가능하다.
 
 
-## 05/30
-
+## 05/30,31
+면접준비
