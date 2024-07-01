@@ -63,3 +63,16 @@ HAVING COUNT(C.challenge_id)>1
 ORDER BY COUNT(C.challenge_id) DESC, H.hacker_id;
 ```
 - group by 절의 조건식인 having을 써서 둘 이상 만점받은 학생을 가려냈다. 
+
+<br>
+
+### [ 정처기 이론 - 이론 ]
+- 소프트웨어 테스트
+- 소프트웨어 유지 보수
+- 데이터베이스
+    - 스키마
+    - 데이터베이스 설계 순서
+    - 개체-관계 모델
+    - 키 (Key)
+    - 무결성
+    - 정규화
