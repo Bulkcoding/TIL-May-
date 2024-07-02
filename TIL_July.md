@@ -43,3 +43,23 @@ CASE
 
 <br>
 <br>
+
+## 07/02
+### [ SQL 문제풀기 - HackerRank ]
+```
+1. 둘 이상의 챌린지에서 만점을 받은 학생의 id와 이름을 출력하라.
+2. 만점받은 총 수에 따라 내림차순으로 정렬하고, id로 오름차순하라.
+```
+- 만점을 가장 많이 받은 학생을 출력하는걸로 잘못 해석해서 오래걸렸다.
+
+<br>
+
+```sql
+SELECT H.hacker_id, H.name
+FROM Hackers H JOIN Submissions S ON H.hacker_id=S.hacker_id JOIN Challenges C ON S.challenge_id=C.challenge_id JOIN Difficulty D ON C.difficulty_level=D.difficulty_level
+WHERE S.score=D.score
+GROUP BY H.hacker_id, H.name
+HAVING COUNT(C.challenge_id)>1
+ORDER BY COUNT(C.challenge_id) DESC, H.hacker_id;
+```
+- group by 절의 조건식인 having을 써서 둘 이상 만점받은 학생을 가려냈다. 
