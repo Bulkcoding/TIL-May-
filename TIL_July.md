@@ -76,3 +76,50 @@ ORDER BY COUNT(C.challenge_id) DESC, H.hacker_id;
     - 키 (Key)
     - 무결성
     - 정규화
+
+
+<br>
+<br>
+
+## 07/03
+### [ SQL 문제풀기 - HackerRank ]
+```
+1. wands 테이블과 wands_property 테이블이 주어진다.
+2. wands : id, power, coins_needed  /  wands_property : age  출력
+3. power 내림차순 정렬 출력, age 내림차순
+4. age와 power가 높고, is_evil과 coins_needed가 낮은것을 골라라
+```
+
+<br>
+
+```sql
+SELECT W.id, WP.age, W.coins_needed, W.power 
+FROM Wands W INNER JOIN Wands_Property WP ON W.code=WP.code 
+WHERE 
+((W.coins_needed, W.power, WP.age) IN 
+ (SELECT MIN(W.coins_needed) AS coins_needed, W.power, WP.age
+  FROM Wands W INNER JOIN Wands_Property WP ON W.code=WP.code
+  GROUP BY W.power, WP.age)
+) 
+AND 
+(is_evil=0) 
+ORDER BY W.power DESC, WP.age DESC;
+```
+where 절이 point이다. power와 age로 그룹을 만들고, coins_needed의 최솟값을 가져온 값들을 조건에 넣는다. evil은 0부터 값이 존재하므로 0인 것들만 가져왔다.
+
+<br>
+
+### [ 정처기 이론 - 이론 ]
+- 데이터베이스
+    - 함수적 종속
+    - 관계대수
+    - 관계 해석
+    - 트랜잭션
+    - 데이터 회복 기법
+    - 로킹 단위
+    - 분산 데이터베이스
+    - 알고리즘
+- 운영체제
+    - 종류
+    - UNIX 구성요소
+    
