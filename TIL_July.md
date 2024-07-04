@@ -139,3 +139,35 @@ where 절이 point이다. power와 age로 그룹을 만들고, coins_needed의 �
     - 프로토콜
     - OSI 7계층
     - 네트워크 프로토콜
+
+
+<br>
+<br>
+
+## 07/05
+### [ SQL 문제풀기 - HackerRank ]
+```
+1. hackers 테이블의 hacker_id, name과 challenges 테이블의 과제의 총 개수 출력를 출력하라.
+2. 총 개수를 내림차순하여 정렬하고, 총 개수가 같을경우 hacker_id로 정렬하라.
+3. 총 개수가 중복된 경우 max(과제수) 보다 작으면 출력x, max(과제수)에 맞으면 출력.
+```
+
+
+<br>
+
+```sql
+with a as (
+    select hacker_id, count(*) as counts
+    from challenges
+    group by hacker_id
+)
+select a.hacker_id, name, a.counts
+from a
+join hackers h on h.hacker_id = a.hacker_id
+where a.counts not in (select counts
+                                    from a
+                                    group by counts
+                                    having count(*) > 1 and counts < (select max(counts) from a)
+                                    )
+order by counts desc, hacker_id;
+```
