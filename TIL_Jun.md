@@ -24,7 +24,7 @@
 
 <br>
 
-### [ java 문제풀기 - HackerRank ]
+### [ JAVA 문제풀기 - HackerRank ]
 
 - scanner를 통해 숫자 3개를 받아와라
 
@@ -48,7 +48,7 @@
 
 <br>
 
-### [ java 문제풀기 - HackerRank ]
+### [ JAVA 문제풀기 - HackerRank ]
 
 - if else 문제
     - scanner로 숫자 n을 받아라
@@ -70,7 +70,7 @@
 
 <br>
 
-### [ java 문제풀기 - HackerRank ]
+### [ JAVA 문제풀기 - HackerRank ]
 
 - scanner에서 string, double, int를 각각 받아서 출력해라
     - nextInt() 다음에 nextLine() 이 올 경우 개행문자가 버퍼에서 사용되기 때문에 scan.skip("(\r\n|[\n\r\u2028\u2029\u0085])?"); 을 써서 해결하는 것을 기억 해 둬야 한다.

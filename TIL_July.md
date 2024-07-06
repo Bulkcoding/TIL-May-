@@ -203,3 +203,32 @@ order by counts desc, hacker_id;
     - RAID
     - 디지털 저작권 관리
     - IT 용어
+
+<br>
+<br>
+
+## 07/07
+### [ JAVA 문제풀기 - HackerRank ]
+> scan 이용시 런타임 오류를 제거하려면
+
+nextLine()으로 문자열을 입력으로 받을 때 Enter 키를 누르자마자 입력을 기다리지 않고 빈 줄을 입력으로 받습니다. 따라서 nextLine()으로 입력을 받을 때는 항상 nextInt() 또는 nextDouble() 뒤에 nextLine()을 추가로 넣어야 한다.
+
+```java
+public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+
+    int i = scan.nextInt();         
+    double d = scan.nextDouble();
+    scan.nextLine();
+    String s = scan.nextLine();         
+    
+    System.out.println("String: " + s);
+    System.out.println("Double: " + d);
+    System.out.println("Int: " + i);
+}
+```
+
+<br>
+
+
+### [ 정처기 이론 - 기출문제 ]
