@@ -252,3 +252,20 @@ public static void main(String[] args) {
 - 스레싱
 - 기아현상
 - 네트워크 계산 문제 
+- 관계대수, 관계해석
+
+<br>
+
+### [ JAVA 문제풀기 - HackerRank ]
+- 문자와 숫자를 받아서 자리수 채우기
+
+> 두 가지 방법이 있다
+
+1. String.format 이용하기
+    - String.format("%05d", 숫자);
+    - 숫자를 포함해서 5자리를 차지하는데 빈공간은 0으로 채워라
+    - 반대로 하려면 -05d
+
+2. String.Utils 라이브러리 이용하기
+    - StringUtils.leftPad(문자열, 5, "_");
+    - _ 로 5자리 맞추기
