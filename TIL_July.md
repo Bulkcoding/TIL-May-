@@ -269,3 +269,11 @@ public static void main(String[] args) {
 2. String.Utils 라이브러리 이용하기
     - StringUtils.leftPad(문자열, 5, "_");
     - _ 로 5자리 맞추기
+
+
+<br>
+<br>
+
+## 07/09
+### [ JAVA 문제풀기 - HackerRank ]
+- 루프문을 통해 숫자를 받아 구구단 만들기
