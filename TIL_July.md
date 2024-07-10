@@ -320,3 +320,10 @@ public static void main(String[] args) {
 
 <br>
 <br>
+
+## 07/11
+### [ JAVA 문제풀기 - HackerRank ]
+- 등차수열의 합에 관한 로직 풀기
+
+### [ 정처기 - 프로그래밍언어 ]
+- 프로그래밍 언어(java)복습
