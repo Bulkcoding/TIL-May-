@@ -327,3 +327,41 @@ public static void main(String[] args) {
 
 ### [ 정처기 - 프로그래밍언어 ]
 - 프로그래밍 언어(java)복습
+
+<br>
+<br>
+
+## 07/12
+### [ SQL 문제풀기 - HackerRank ]
+```
+hackers테이블과 Submissions테이블이 있다. 
+1. hacker_id, name, 총점을 내림차순으로 정렬한다.
+2. 두명 이상의 해커가 같은 총점을 달성한 경우 hacker_id를 오름차순으로 정렬하라.
+3. 총점이 0인 해커는 출력하지 않는다.
+```
+<br>
+
+```sql
+with v as (
+    Select h.hacker_id, h.name, s.challenge_id, max(s.score) as score
+    from Submissions S join hackers H on S.hacker_id = H.hacker_id
+    group by h.hacker_id, h.name, s.challenge_id
+    order by h.hacker_id
+)
+select v.hacker_id, v.name, sum(v.score)
+from v
+where v.score >0
+group by v.hacker_id, v.name
+order by sum(v.score) desc, v.hacker_id asc;
+```
+전부 짜놨는데, oerder by 가 문제였다.
+나는 order by 문에서 case문을 활용하여 count가 1보다 큰 경우를 찾아내 오름차순을 하려고 했지만, 쉽지 않았다.
+결국 다른 사람의 코드를 참조해서 알아냈는데,
+
+일단 총점으로 내림차순하고 hacker_id로 오름차순하면 일단 같은 총점끼리는 정렬이 되니까 두명이상인지 한눈에 볼 수 있고, 그 상태에서 hacker_id로 오름차순 정렬하면 되는것이었다.
+
+문제에서 hacker_id, name, 총점을 정렬하라고 했는데, hacker_id, name, 총점 desc가 먼저 나와야하는거 아닐까...?
+
+정렬하라는 문제는 뭐가 정답인지 몰라서 까다로운것 같다.
+
+<br>
