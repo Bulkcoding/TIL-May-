@@ -365,3 +365,187 @@ order by sum(v.score) desc, v.hacker_id asc;
 정렬하라는 문제는 뭐가 정답인지 몰라서 까다로운것 같다.
 
 <br>
+<br>
+
+## 07/13
+### [ SQL 문제풀기 - HackerRank ]
+```
+start_date  end_date
+2015-10-01 2015-10-02
+2015-10-02 2015-10-03
+2015-10-03 2015-10-04
+2015-10-04 2015-10-05
+2015-10-11 2015-10-12
+2015-10-12 2015-10-13
+
+와 같은 데이터가 저장 되어 있는 테이블인 경우
+end_date와 다음행의 start_date가 같은 경우 end_date는 계속 다음행의 end_date가 된다.
+
+예)
+start_date  end_date
+2015-10-01 2015-10-05
+2015-10-11 2015-10-13
+```
+<br>
+
+> 1단계
+
+
+
+```sql
+    SELECT 
+        start_date,
+        end_date,
+        CASE 
+            WHEN end_date - LAG(end_date) OVER (ORDER BY end_date) > 1 THEN 1 
+            ELSE 0 
+        END AS diff
+    FROM Projects
+
+```
+
+이 테이블을 실행하면
+
+
+```
+2015-10-01 2015-10-02 0
+2015-10-02 2015-10-03 0
+2015-10-03 2015-10-04 0
+2015-10-04 2015-10-05 0
+2015-10-11 2015-10-12 1
+2015-10-12 2015-10-13 0
+2015-10-15 2015-10-16 1
+2015-10-17 2015-10-18 1
+2015-10-19 2015-10-20 1
+2015-10-21 2015-10-22 1
+2015-10-25 2015-10-26 1
+2015-10-26 2015-10-27 0
+```
+
+이런 데이터가 나온다. 그럼 0과 1로 섹션이 나눠진다.
+
+<br>
+
+> 2단계
+
+```sql
+WITH Add_date_diff AS (
+    SELECT 
+        start_date,
+        end_date,
+        CASE 
+            WHEN end_date - LAG(end_date) OVER (ORDER BY end_date) > 1 THEN 1 
+            ELSE 0 
+        END AS diff
+    FROM Projects
+)
+    SELECT 
+        start_date,
+        end_date,
+        SUM(diff) OVER (ORDER BY end_date) AS project_num
+    FROM Add_date_diff
+```
+이렇게 짜게 되면 해당하는 항목별로 0부터 차례대로 번호를 받게된다.
+
+```
+2015-10-01 2015-10-02 0
+2015-10-02 2015-10-03 0
+2015-10-03 2015-10-04 0
+2015-10-04 2015-10-05 0
+2015-10-11 2015-10-12 1
+2015-10-12 2015-10-13 1
+2015-10-15 2015-10-16 2
+2015-10-17 2015-10-18 3
+2015-10-19 2015-10-20 4
+2015-10-21 2015-10-22 5
+```
+
+<br>
+
+> 3단계
+
+```sql
+WITH Add_date_diff AS (
+    SELECT 
+        start_date,
+        end_date,
+        CASE 
+            WHEN end_date - LAG(end_date) OVER (ORDER BY end_date) > 1 THEN 1 
+            ELSE 0 
+        END AS diff
+    FROM Projects
+),
+Add_project_num AS (
+    SELECT 
+        start_date,
+        end_date,
+        SUM(diff) OVER (ORDER BY end_date) AS project_num
+    FROM Add_date_diff
+)
+SELECT 
+    MIN(start_date) AS min_start_date, 
+    MAX(end_date) AS max_end_date
+FROM Add_project_num
+GROUP BY project_num
+ORDER BY COUNT(*), MIN(start_date);
+```
+
+번호대로 그룹을 묶은 상태로 start_date는 최솟값을, end_date는 최댓값을 가지면 원하는 결과값을 얻을 수 있다.
+
+```
+2015-10-15 2015-10-16
+2015-10-17 2015-10-18
+2015-10-19 2015-10-20
+2015-10-21 2015-10-22
+2015-11-01 2015-11-02
+2015-11-17 2015-11-18
+2015-10-11 2015-10-13
+2015-11-11 2015-11-13
+2015-10-01 2015-10-05
+2015-11-04 2015-11-08
+2015-10-25 2015-10-31
+```
+<br>
+
+이번 쿼리도 내 힘으로 풀진 못했다. 기껏해야 LAG,LEAD를 써야할것 같다는것 정도가 한계였다. 이 단계부터는 쿼리를 이해하는 것을 목표로 해야겠다.
+
+<br>
+<br>
+
+## 07/14
+### [ JAVA 문제풀기 - HackerRank ]
+- byte,short,int,long의 범위관련 문제
+- long같은경우 범위가
+```java
+if(x>=-9223372036854775808L && x <= 9223372036854775807L)
+```
+숫자가 큰 경우 끝에 L을 꼭 붙여줘야 한다.
+
+<br>
+
+### [ 정처기 - 프로그래밍언어 ]
+- Java
+    - 메서드 오버라이딩
+    - 메서드 오버로딩
+    - 메서드 하이딩
+    - 예외처리
+
+<br>
+
+### [ 정처기 이론 - 기출문제 ]
+- 테스트의 목적
+    - 회복
+    - 안전
+    - 강도
+    - 성능
+    - 구조
+    - 회귀
+    - 병행
+    - A/B테스트
+    - 스모크 테스트
+
+### [ cs 공부 ]
+디자인패턴 중 MVC, MVP, MVVM에 대해 공부함.
+
+<br>
+<br>
