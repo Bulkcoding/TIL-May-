@@ -549,3 +549,45 @@ if(x>=-9223372036854775808L && x <= 9223372036854775807L)
 
 <br>
 <br>
+
+## 07/15
+### [ JAVA 문제풀기 - HackerRank ]
+- Scanner.hasNext() 메소드를 통해 문제 풀기.
+```java
+[input 내용]
+Hello world
+I am a file
+Read me until end-of-file.
+
+[output 해야할 내용]
+1 Hello world
+2 I am a file
+3 Read me until end-of-file.
+```
+
+<br>
+
+```java
+public static void main(String[] args) {
+    
+    String a;
+    int b = 1;
+    Scanner scanner = new Scanner(System.in);
+    while(scanner.hasNext()){
+        a = scanner.nextLine();
+        
+        System.out.println(b+" "+a);
+        b++;
+    } 
+}
+```
+scanner.hasNext()로 값이 비어있을때만 while문이 돌아가도록 한다.
+
+<br>
+
+### [ 정처기 - 프로그래밍언어 ] - 복습
+ 
+
+<br>
+
+### [ 정처기 이론 - 기출문제 ] - 복습
