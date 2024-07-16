@@ -597,7 +597,7 @@ scanner.hasNext()로 값이 비어있을때만 while문이 돌아가도록 한�
 <br>
 
 ## 07/16
-### [ JAVA 문제풀기 - HackerRank ]
+### [ JAVA 알고리즘() 문제풀기 - HackerRank ]
 ```
 6               arr[] size n = 6
 -4 3 -9 0 4 1   arr = [-4, 3, -9, 0, 4, 1]
@@ -660,3 +660,67 @@ InputStreamReader을 입력받아 문자열을 출력해준다.
 
 메서드 참조를 사용한 것이다.
 스트림의 각 문자열 요소를 integer 타입으로 변환해준다. s -> Integer.parseInt(s) 와 동일한 표현이다. "::"는 메서드 참조를 뜻한다.
+
+<br>
+<br>
+
+## 07/17
+### [ JAVA 알고리즘() 문제풀기 - HackerRank ]
+```
+배열을 입력받아 모두 더한 뒤 각 인덱스에 해당하는 숫자를 빼보고 최댓값과 최솟값을 출력해라.
+
+예)
+arr = [1,2,3,4,5]
+2+3+4+5 = 14
+1+3+4+5 = 13
+1+2+4+5 = 12
+1+2+3+5 = 11
+1+2+3+4 = 10
+
+10 14
+```
+<br>
+
+```
+class Result {
+
+    public static void miniMaxSum(List<Integer> arr) {
+        long min = Long.MAX_VALUE; 
+        long max = Long.MIN_VALUE; 
+        long sum = 0;
+
+
+        for (int num : arr) {
+            sum += num;
+        }
+
+
+        for (int num : arr) {
+            long hap = sum - num;
+            if (hap < min) {
+                min = hap;
+            }
+            if (hap > max) {
+                max = hap;
+            }
+        }
+        System.out.println(min +" "+ max);
+
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        List<Integer> arr = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .map(Integer::parseInt)
+            .collect(toList());
+
+        Result.miniMaxSum(arr);
+
+        bufferedReader.close();
+    }
+}
+```
