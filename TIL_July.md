@@ -591,3 +591,72 @@ scanner.hasNext()로 값이 비어있을때만 while문이 돌아가도록 한�
 <br>
 
 ### [ 정처기 이론 - 기출문제 ] - 복습
+
+
+<br>
+<br>
+
+## 07/16
+### [ JAVA 문제풀기 - HackerRank ]
+```
+6               arr[] size n = 6
+-4 3 -9 0 4 1   arr = [-4, 3, -9, 0, 4, 1]
+```
+이렇게 input값이 들어오면
+size 개수로 (양수개수, 음수개수, 0의 개수)를 나눈 값을 소수점 6자리로 나타내라.
+
+
+```java
+class Result {
+
+    public static void plusMinus(List<Integer> arr, int n) {
+    
+        int count0 = 0;
+        int countP = 0;
+        int countM = 0;
+    
+        for(int num:arr){
+            if(num == 0) count0++;
+            if(num < 0) countM++;
+            if(num > 0) countP++;
+        }
+        
+        System.out.println(String.format("%.6f",(double)countP/n));
+        System.out.println(String.format("%.6f",(double)countM/n));
+        System.out.println(String.format("%.6f",(double)count0/n));
+        
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(bufferedReader.readLine().trim());
+
+        List<Integer> arr = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .map(Integer::parseInt)
+            .collect(toList());
+
+        Result.plusMinus(arr,n);
+
+        bufferedReader.close();
+    }
+}
+```
+
+plusMinus 메소드만 작성하는 문제였는데,
+main함수에서 낯선 클래스와 객체를 발견했다.
+
+> BufferedReader
+
+Scanner는 많이 써봤지만 BufferedReader는 써보지 못했다.
+BufferedReader는 stream이 다 차거나 null이 아니라면 그 값을 계속 갖고있고, 데이터를 많이 입력받을 경우에 Scanner 보다 메모리가 더 효율적이라고 한다.
+
+InputStreamReader을 입력받아 문자열을 출력해준다.
+
+
+> map(Integer::parseInt)
+
+메서드 참조를 사용한 것이다.
+스트림의 각 문자열 요소를 integer 타입으로 변환해준다. s -> Integer.parseInt(s) 와 동일한 표현이다. "::"는 메서드 참조를 뜻한다.
