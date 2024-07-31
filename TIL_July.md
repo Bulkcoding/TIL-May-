@@ -922,3 +922,106 @@ jpa는 강력하고 간결한 orm 표준 기술이다.
 - yaml 파일에 db정보 입력하면 hikariCP를 써서 connection pool 같은 걸 spring boot 가 다 알아서 세팅해준다.
 - JPA에서 엔티티 매니저는 엔티티를 데이터베이스에 관리하고 CRUD(생성, 읽기, 갱신, 삭제) 작업을 수행한다.
 - setting - live templates에 내가 커멘드를 직접 생성할 수 있다.
+
+## 07/31
+### [ spring boot & jpa 강의 수강 2일차 ]
+#### **section2 - 2 ( 도메인 모델과 테이블 설계 )**
+
+> 연관관계/ 연관관계의 주인
+```
+다:다 관계는 1:다 다:1 관계로 풀어내야 한다.
+1:다 관계에서 다 쪽이 연관관계의 주인이다.
+주인이 아닌쪽은 mappedBy로 연결해야한다.
+
+```
+
+<br>
+<br>
+
+>임베디드 타입이란
+
+JPA에서 엔티티에 사용하는 기본 값 타일을 모아 만든 복합적인 값 타입.
+
+임베디드 타입을 통해 새로운 값 타입을 사용자가 직접 정의하여 사용할 수 있다.
+
+
+<br>
+
+> 임베디드 타입을 사용하는 이유
+
+```java
+@Entity
+public class Member {
+
+    private Long id;
+    private String name;
+
+    // 집 주소 표현
+    private String city;
+    private String street;
+    private String zipcode;
+}
+```
+만약 집 주소 표현에서 위와 같이 공통된 속성으로 3가지를 분리해놨는데, 이를 하나로 묶어서 관리 하는것이 더 명확하게 보인다고 생각해 만들어진 것이 임베디드 타입이다. 
+
+그리고 공통된 속성이 아니더도 복합적인 값타입을 가지기 때문에 여러가지 속성들을 하나로 묶어주는 것이 가능하다.
+
+즉, 회원이 공통된 관심사에 대해 상세한 데이터를 하나하나 가지는 것 보다 관심사를 묶어서 객체 지향적으로 관리하기 위함이다.
+
+<br>
+
+>사용방법
+
+@Embeddable : 값 타입을 정의하는 곳
+@Embedded : 값 타입을 사용하는 곳
+기본 생성자를 만들어 줘야 함.
+
+Address 클래스는 임베디드 타입으로 만들 클래스이다. 따라서 @Embeddable를 써준다.
+```java
+@Embeddable     //jpa의 내장타입이라는것을 의미(어딘가에 내장될 수 있다)
+public class Address {
+
+    private String city;
+    private String street;
+    private String zipcode;
+
+    protected Address(){    // 없으면 오류난다. 기본생성자를 만들어줘야함.
+    }
+
+    public Address(String city, String street, String zipcode) {
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipcode;
+    }
+
+    public void validateUserAddress(){
+        //...
+    }
+}
+```
+
+<br>
+
+엔티티에 임베디드 타입을 필드에 추가하고 @Embedded 어노테이션을 붙힌다.
+@Embedded는 내장타입을 포함하고 있다는 의미이다.
+Address 클래스에 @Embeddable 어노테이션을 추가하거나, 이를 참조하는 클래스 필드에 @Embedded를 추가하거나 둘 중에 하나만 지정해도 된다. 
+```java
+@Entity
+public class Member {
+
+    private Long id;
+    private String name;
+
+    @Embedded
+    private Address address;
+}
+```
+
+<br>
+<br>
+
+> 임베디드 타입의 장점
+- 재사용성
+    - 예를 들어 등록일과 수정일에 대한 컬럼을 모든 엔티티에 넣어야할때 등록일과 수정일에 대한 임베디드 타입을 정의하여 모든곳에 넣어주기면 하면 된다.
+- 높은 응집도
+- validateUserAddress() 메서드 처럼 해당 값 타입만 사용하는 의미있는 메서드를 만들 수 있다.
