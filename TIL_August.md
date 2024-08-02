@@ -33,12 +33,15 @@ strategy = InheritanceType에는 3가지 종류의 전략이 있다.
 여기서는 @Inheritance(strategy = InheritanceType.SINGLE_TABLE) 방식을 채택했다.
 
 <추상클래스(부모)>
+
+ 싱글테이블에서 구분할 수 있는 타입을 명시하는 것이 dtype이다.
+
 ```java
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "dtype") // 싱글테이블에서 구분할 수 있는 타입을 명시
+@DiscriminatorColumn(name = "dtype")
 @Getter @Setter
-public abstract class Item { // 구현체를 가지고 있어서 추상클래스로 만듦..!
+public abstract class Item {
 
     @Id
     @GeneratedValue
@@ -143,3 +146,36 @@ public enum DeliveryStatus {
     READY, COMP
 }
 ```
+
+<br>
+<br>
+
+## 08/02
+### [ spring boot & jpa 강의 수강 4일차 ]
+#### **section2 - 5 ( 엔티티 설계시 주의점)**
+
+- 엔티티를 변경할 때는 Setter 대신에 변경 지점이 명확하도록 변경을 위한 비즈니스 메서드를 별도로 제공해야 한다. (Setter 남발하지 않기)
+    - 변경포인트가 많아서 에러가 나서 유지보수시, 특정엔티티가 어디서 어떻게 변경됐는지 알 수가 없기 때문.
+- 모든 연관관계는 지연로딩으로 설정
+    - 즉시로딩(EAGER)은 연관된 테이블들을 전부 다 끌어모으기 때문에 어떤 SQL이 실행될지 추적하기 어렵고, 특히 N+1 문제가 자주 발생한다.
+    - 실무에서 모든 연관관계는 지연로딩(LAZY)로 설정해야하 한다.
+    - @XToOne(OneToOne, ManyToOne) 관계는 기본이 즉시로딩이므로 직접 지연로딩으로 설정해야 한다
+    - XTOMany는 기본이 지연로딩이기 때문에 그대로 두어도 된다.
+- 컬렉션은 필드에서 초기화하자.
+```java
+Member member = new Member();
+System.out.println(member.getOrders().getClass());
+em.persist(member);         // db에 영속화 하겠다는 뜻
+System.out.println(member.getOrders().getClass());
+```
+이런 코드가 있다고 가정하자.
+
+출력결과는 다음과 같다.
+```
+class java.util.ArrayList
+class org.hibernate.collection.internal.PersistentBag
+```
+같은 코드인데, 출력값이 달라졌다. 그 이유는
+
+영속화 되면 하이버네이트가 컬렉션을 감싸기 때문에 결과가 달라지게된다. 이제 이 컬렉션을 바꾸게 되면 하이버네이트가 원하는대로 동작을 안하게 되는 문제가 발생한다.
+따라서 컬렉션은 필드에서 바로 초기화 하는 것이 안전하다.
