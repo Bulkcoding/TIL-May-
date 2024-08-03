@@ -179,3 +179,47 @@ class org.hibernate.collection.internal.PersistentBag
 
 영속화 되면 하이버네이트가 컬렉션을 감싸기 때문에 결과가 달라지게된다. 이제 이 컬렉션을 바꾸게 되면 하이버네이트가 원하는대로 동작을 안하게 되는 문제가 발생한다.
 따라서 컬렉션은 필드에서 바로 초기화 하는 것이 안전하다.
+
+
+## 08/03
+### [ spring boot & jpa 강의 수강 5일차 ]
+#### **section2 - 5 ( 엔티티 설계시 주의점)**
+> 연관관계 (편의)메서드
+
+- 양방향 관계일때, 양쪽에 값을 다 세팅해주는것이 좋다.
+- 연관관계 메서드의 위치는 행동적으로 컨트롤 하는 쪽에 위치하는것이 좋다.
+
+<br>
+
+편의메서드를 쓰지 않는다면
+```java
+Member member = new Member();
+Order order = new Order();
+
+member.getOrders().add(order);
+order.setMember(member);
+```
+
+ 처럼 넣어줘야한다. 하지만 이 중에서 뭔가 하나를 빼먹는 실수가 일어날 수도 있는데, 이를 방지하기 위해 이 두개를 원자적으로 묶는 메서드를 만든 것이다.
+ 
+ 그럼 코드가
+ ```java
+Member member = new Member();
+Order order = new Order();
+
+order.setMember(member);
+ ```
+이렇게 줄어들게 된다.
+
+
+<br>
+
+> SpringPhysicalNamingStrategy
+
+하이버네이트에서 엔티티의 필드명을 자동으로 바꿔주는 기능이다.
+
+- 카멜 케이스 -> 언더스코어 (memberPoint -> member_point)
+- 점 -> 언더스코어 (. -> _)
+- 대문자 -> 소문자
+
+이 클래스에서 제공하는 방법을 그대로 따르는 방법도 있지만 내가 이걸참고해서 내 맘대로 수정할 수 있음.
