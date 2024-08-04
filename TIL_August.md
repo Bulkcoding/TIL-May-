@@ -275,3 +275,152 @@ jpa가 제공하는 표준 어노테이션, spring이 entitymanager를 만들어
  private EntityManagerFactory emf;
  ```
  를 하면 EntityManagerFactory를 직접 주입받을 수도 있다.
+
+<br>
+ <br>
+ 
+ ## 08/05
+ ### [ spring boot & jpa 강의 수강 7일차 ]
+ #### **section4 - 2 ( 회원 서비스 개발 )**
+ > 의존성 주입하는 여러가지 방법
+
+ ##### 1번
+```java
+public class MemberService {
+    @Autowired
+    private MemberRepository memberRepository;
+}
+```
+
+<br>
+
+ ##### 2번 ( setter 주입 )
+```java
+public class MemberService {
+    private MemberRepository memberRepository;
+
+    @Autowired
+    public void setMemberRepository(MemberRepository memberRepository){
+        this.memberRepository = memberRepository;
+    }
+}
+```
+장점 : MemberRepository memberRepository 에 Mock() 같은걸 직접 주입 해 줄 수 있다, 유지보수가 용이하다.
+
+단점 : 애플리케이션 로딩 시점에 이것을 수정할 일이 없다.
+
+<br>
+
+ ##### 3번 ( 생성자 injection을 사용 )
+```java
+public class MemberService {
+    private MemberRepository memberRepository;
+    // final로 하는 걸 권장. final을 하면 컴파일 시점에 부족한 부분 체크 가능
+    @Autowired
+    public MemberService(MemberRepository memberRepository){
+        this.memberRepository = memberRepository;
+    }
+}
+```
+생성자에서 injection을 해준다.
+
+장점 : 테스트케이스를 할때,
+```java
+public static void main(String args){
+     MemberService memberService = new MemberService(); 
+     // ()에 밑줄이 생긴다. Mock()을 주입을 하던 테스트 케이스를 주입을 해줘야한다.
+     // "얘는 이게 필요해! 이거에 의존하고 있어" 라는걸 명확하게 알 수 있다.
+}
+```
+최신버전 spring에서는  @Autowired가 없어도 자동으로 등록해줌.
+
+<br>
+
+##### 4번 ( lombok을 사용 )
+```java
+@AllArgsConstructor
+public class MemberService {
+    private final MemberRepository memberRepository;
+}
+```
+@AllArgsConstructor 는 모든 필드를 가지고 생성자를 만들어 주는 것이다.
+
+<br>
+
+##### 5번 ( @RequiredArgsConstructor 사용 )
+```java
+@RequiredArgsConstructor
+public class MemberService {
+    private final MemberRepository memberRepository;
+}
+```
+@RequiredArgsConstructor 는 final 을 가지고 있는 필드들만을 이용해서 생성자를 만들어준다. 그렇기 때문에 @AllArgsConstructor 와 좀 더 명확하게 구분해서 쓸 수 있다.
+
+<br>
+
+> @PersistenceContext
+
+-  jpa가 제공하는 표준 어노테이션
+- spring + jpa를 사용하면 @PersistenceContext 를 @Autowired로 사용할 수 있다.
+- 즉, @RequiredArgsConstructor를 사용가능
+
+<br>
+
+ #### **section4 - 3 ( 회원 기능 테스트 )**
+> test 프로젝트
+
+```
+src 밑에는 main과 test 프로젝트가 나눠져 있다. 둘 다 밑에 java 프로젝트가 있다.
+test프로젝트 하위에 resources 프로젝트를 만들고 하위에 yaml 파일을 붙여넣으면 프로젝트 실행시 test프로젝트의 yaml 파일이 권한을 가지기 때문에 main의 yaml은 실행하지 않는다. test의 yaml에는 db를 메모리 모드로 동작하도록 하기 때문에 아무런 내용이 들어가 있지 않아도 자동으로 db연결없이 메모리 모드로 동작하게 해 준다.
+```
+
+<br>
+
+> @Test(expected = IllegalStateException.class)
+
+```java
+   @Test
+   public void 중복_회원_예외() throws Exception{      
+
+       //given
+       Member member1 = new Member();
+       member1.setName("kim");
+
+       Member member2 = new Member();
+       member2.setName("kim");
+
+       //when
+       memberService.join(member1);
+       try{
+           memberService.join(member2);  
+       } catch (IllegalStateException e){
+           return;                     
+       }
+
+        //then
+        fail("예외가 발생해야 한다.");
+   }
+```
+@Test(expected = IllegalStateException.class)를 이용해 위 코드를 깔끔하게 할 수 있다.
+
+<br>
+
+```java
+@Test(expected = IllegalStateException.class)
+    public void 중복_회원_예외() throws Exception{        
+        //given
+        Member member1 = new Member();
+        member1.setName("kim");
+
+        Member member2 = new Member();
+        member2.setName("kim");
+
+        //when
+        memberService.join(member1);
+        memberService.join(member2);  
+
+        //then                          
+        fail("예외가 발생해야 한다.");
+    }
+```
+catch를 test 어노테이션에서 expected 로 받아준 것이다.
