@@ -224,7 +224,7 @@ order.setMember(member);
 
 이 클래스에서 제공하는 방법을 그대로 따르는 방법도 있지만 내가 이걸참고해서 내 맘대로 수정할 수 있음.
 
-## 08/03
+## 08/04
 ### [ JAVA 문제풀기 - HackerRank ]
 
 ### [ spring boot & jpa 강의 수강 6일차 ]
