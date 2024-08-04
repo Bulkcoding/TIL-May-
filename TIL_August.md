@@ -223,3 +223,55 @@ order.setMember(member);
 - 대문자 -> 소문자
 
 이 클래스에서 제공하는 방법을 그대로 따르는 방법도 있지만 내가 이걸참고해서 내 맘대로 수정할 수 있음.
+
+## 08/03
+### [ JAVA 문제풀기 - HackerRank ]
+
+### [ spring boot & jpa 강의 수강 6일차 ]
+#### **section4 - 1 ( 회원 리포지토리 개발 )**
+> @Repository
+
+ - spring bean에 의해 자동으로 관리가 됨
+
+ <br>
+ <br>
+
+> 단축키 ctrl+alt+N
+```java
+List<Member> result = em.createQuery("select m from Member m", Member.class).getResultList();
+        return result;
+```
+를
+```java
+return em.createQuery("select m from Member m", Member.class).getResultList();
+```
+이렇게 만들어줌
+
+- 여기서 m은 Member 객체를 의미한다.
+- select m은 select * 와 같은 의미이다.
+
+ <br>
+ <br>
+
+ > @SpringBootApplication
+
+ 이 어노테이션이 있으면 이 패키지와 이 패키지 하위에 있는 패키지의 컴포넌트들을 전부 스캔, 자동등록한다.
+
+<br>
+ <br>
+
+> @PersistenceContext
+
+jpa가 제공하는 표준 어노테이션, spring이 entitymanager를 만들어서 주입(injection)을 해줌
+
+
+
+<br>
+ <br>
+
+ >  @PersistenceUnit
+
+ ```
+ private EntityManagerFactory emf;
+ ```
+ 를 하면 EntityManagerFactory를 직접 주입받을 수도 있다.
