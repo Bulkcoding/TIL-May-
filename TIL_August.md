@@ -536,3 +536,103 @@ services.AddSingleton<만든인터페이스, 만든서비스 클래스>();
 PM> Scaffold-DbContext "Host=localhost;Database=데이터베이스이름;Username=myuser;Password=mypassword" Npgsql.EntityFrameworkCore.PostgreSQL -o Models
 ```
 을 입력하면 접근 할 수 있다.
+
+<br>
+
+#### List\<T>
+
+- Generic 타입 매개변수이다.
+
+인터페이스에서 데이터를  조회하려는 로직을 만들려고 할때, 만약, 테이블의 모든 정보를 조회한다고 하면
+```c#
+List<region> regions { get; }
+```
+이라고 작성을 한다.
+
+하지만 이렇게 하면 인터페이스를 여러 클래스에서 구현해야 하는데, 특정 테이블만을 사용하게 된다.
+
+구현하는 클래스마다 다른 테이블을 사용할 수 있도록 하기 위해서
+```c#
+List<T>? Get();
+```
+라고 정의를 해 주어야 한다.
+
+ <br>
+
+ 전체코드를 살펴보면
+
+ ```c#
+ public interface IDatabase<T>
+{
+    //  테이블에 대한 모든 데이터 조회
+    List<T>? Get();
+
+    //  테이블에 대해 특정 ID에 해당하는 데이터 조회
+    T? GetDetail(int id);
+
+    //  테이블에 특정 DATA Insert
+    void Create(T entity);
+
+    //  테이블에 특정 DATA Update
+    void Update(T entity);
+
+    //  테이블에 특정 DATA Delete
+    void Delete(int id);
+}
+ ```
+ 이런 Interface가 나오게 되는데,
+ 
+ 만약 다른 클래스에서 region이라는 테이블을 사용하려고 이 Interface를 구현하면
+
+ ```c#
+ public class regionDatabase : IDatabase<region>
+{
+    public List<region>? Get()
+    {
+        // region 테이블에서 모든 데이터를 가져옴
+    }
+
+    public region? GetDetail(int id)
+    {
+        // 특정 id에 해당하는 region 가져옴
+    }
+
+    public void Create(region entity)
+    {
+        // 새로운 region 생성
+    }
+
+    public void Update(region entity)
+    {
+        // 기존 region 업데이트
+    }
+
+    public void Delete(int id)
+    {
+        // 특정 id에 해당하는 region 삭제
+    }
+}
+ ```
+ 
+ 이렇게 \<T> 자리에 사용하려는 region 테이블을 넣어줘서 코드의 재사용성을 높일 수 있다.
+
+<br>
+
+#### ? ( Nullable )
+
+기본적으로 c#에서는 Null 값을 가질 수 없다.
+
+하지만 Null을 받을 수 있는 상황에서 ?를 넣어주면 Null 값을 가질 수 있게 된다.
+
+- 참조 형식(Reference Type)은 기본적으로 null을 허용하기 때문에 굳이 ?를 사용하지 않아도 됨.
+- 데이터베이스나 외부 소스로부터 값을 가져올 때 값이 없을 수 있는 상황을 안전하게 처리하는 데 유용
+
+예)
+```c#
+private int? _counter = 0;
+```
+변수 _counter를 int 형식으로 받는다. 다만 값이 null이어도 허용한다는 뜻이다.
+
+
+<br>
+<br>
