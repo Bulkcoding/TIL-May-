@@ -483,11 +483,15 @@ Ui에서 쌍방향 통신이면 Mode가 TwoWay.
 	내가 이 메서드를 command로서 활용하겠다면 (사용자로부터 어떤 이벤트가 발생하면 이 함수를 호출해서 특정 로직을 수행하고 싶다)면
 	적용한다.
 
+<br>
+
 #### command
 
 - 사용자가 발생시킨 동작과 view모델에 정의된 함수 두개를 연결시켜줘서 "어떤 사용자 인풋이 들어왔을 때 어떤 로직을 수행해라" 라고 알려주는 것이다.
 
 - 이러한 연결을 해주는 것이 command 이다.
+
+<br>
 
 #### 단축키
 
@@ -495,3 +499,41 @@ Ui에서 쌍방향 통신이면 Mode가 TwoWay.
 
 원하는 부분 클릭 후 F12를 누르면 해당 부분의 정의가 있는 클래스로 이동한다.
 
+<br>
+<br>
+ 
+ ## 08/08
+ ### [ C#/.Net 7.0 WPF 강의 수강 3일차 ]
+
+ #### IOC ( 제어의 역전 )
+ - 컴포넌트간의 결합도를 줄인다.
+- 각 컴포넌트간의 의존성을 클래스에 직접 참조하는것이 아니라 외부에서 가져오는 것
+- 외부에서 주입받아서 인터페이스에서 제공하는 함수를 호출해서 갖다 쓰면 된다.
+
+<br>
+
+#### 단축키
+
+> Alt + Enter
+
+인터페이스 생성 단축키
+
+<br>
+
+> ctor
+
+생성자 코드 조각 단축키
+
+#### 서비스를 만들고 반드시 App.xaml의 비하인드 코드인 App.xaml.cs에 services로 등록을 해줘야 동작한다.
+```
+services.AddSingleton<만든인터페이스, 만든서비스 클래스>();
+```
+
+#### DB Set에 접근하는 방법
+
+- 터미널을 연다.
+
+```
+PM> Scaffold-DbContext "Host=localhost;Database=데이터베이스이름;Username=myuser;Password=mypassword" Npgsql.EntityFrameworkCore.PostgreSQL -o Models
+```
+을 입력하면 접근 할 수 있다.
