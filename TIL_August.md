@@ -636,3 +636,134 @@ private int? _counter = 0;
 
 <br>
 <br>
+
+ ## 08/09
+### [ C#/.Net 7.0 WPF 강의 수강 3일차 ]
+
+#### 느슨한 결합
+
+![Alt text](<화면 캡처 2024-08-10 014511.png>)
+
+#### UI 공부
+
+```c#
+<Grid>
+    <Grid.ColumnDefinitions>                // 컬럼 정의하기
+        <ColumnDefinition Width="300" />    // 특정값으로 설정
+        <ColumnDefinition Width="*" />      // 컬럼을 균등하게 나눔
+
+    </Grid.ColumnDefinitions>               // 2개 컬럼이 정의됨
+
+    <Grid Grid.Column="0">                  // 첫번째 컬럼 내용
+        <Grid.RowDefinitions>               // 행 정의하기
+            <RowDefinition Height="auto" /> // 사용할 행 갯수만큼
+            <RowDefinition Height="auto" /> // 입력하기
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+```
+
+
+<br>
+
+행 정의 하지 않고 
+```c#
+<StackPanel Orientation="Vertical">
+    
+</StackPanel>
+```
+여기 안에 내용을 넣어도 java의 Block 개념으로 수직으로 정렬된다.
+inline으로 하려면 Horizontal 속성을 넣으면 된다.
+
+
+<br>
+
+```c#
+        <ui:TextBlock Grid.Row="0" x:Name="tbkAdminAgency" Margin="0,0,0,10"> // Grid.Row는 위에서 정의한 행 순서
+            <Run Text="Administrative Agency" />    // Margin의 순서는 좌,상,우,하
+            <Run Text="*" Foreground="OrangeRed"/>
+        </ui:TextBlock>
+        <ComboBox Grid.Row="1" x:Name="cbxAdminAgency" ItemsSource="{Binding ViewModel.Colors}" Margin="0,0,0,10"/>
+        // ItemsSource는 바인딩할때 값
+        <ui:TextBlock Grid.Row="2" x:Name="tbkTotalPopulation" Margin="0,0,0,10">
+            <Run Text="Total Population" />
+            <Run Text="*" Foreground="OrangeRed"/>
+        </ui:TextBlock>
+        <ui:TextBox Grid.Row="3" x:Name="tbxTotPopulation" Margin="0,0,0,10"/>
+
+        <ui:TextBlock Grid.Row="4" x:Name="tbkMalePopulation" Margin="0,0,0,10">
+            <Run Text="Male Population" />
+            <Run Text="*" Foreground="OrangeRed"/>
+        </ui:TextBlock>
+        <ui:TextBox Grid.Row="5" x:Name="tbxMalePopulation" Margin="0,0,0,10"/>
+
+        <ui:TextBlock Grid.Row="6" x:Name="tbkFemalePopulation" Margin="0,0,0,10">
+            <Run Text="Female Population" />
+            <Run Text="*" Foreground="OrangeRed"/>
+        </ui:TextBlock>
+        <ui:TextBox Grid.Row="7" x:Name="tbxFemalePopulation" Margin="0,0,0,10"/>
+
+        <ui:TextBlock Grid.Row="8" x:Name="tbkSexRatio" Margin="0,0,0,10">
+            <Run Text="Sex Ratio" />
+            <Run Text="*" Foreground="OrangeRed"/>
+        </ui:TextBlock>
+        <ui:TextBox Grid.Row="9" x:Name="tbxSexRatio" Margin="0,0,0,10"/>
+
+        <ui:TextBlock Grid.Row="10" x:Name="tbkNumberOfHouseholds" Margin="0,0,0,10">
+            <Run Text="Number Of Households" />
+            <Run Text="*" Foreground="OrangeRed"/>
+        </ui:TextBlock>
+        <ui:TextBox Grid.Row="11" x:Name="tbxNumberOfHouseholds" Margin="0,0,0,10"/>
+
+        <ui:TextBlock Grid.Row="12" x:Name="tbkNumberOfPeoplePerHouseholds" Margin="0,0,0,10">
+            <Run Text="Number Of People Per Households" />
+            <Run Text="*" Foreground="OrangeRed"/>
+        </ui:TextBlock>
+        <ui:TextBox Grid.Row="13" x:Name="tbxNumberOfPeoplePerHouseholds" Margin="0,0,0,10"/>
+
+        <ui:Button Grid.Row="14" Height="50" Width="300" Background="SteelBlue" Content="Create" Foreground="White" Margin="0,0,0,10"/>
+
+        <Grid Grid.Row="15">        // 행 안에서 또다른 행을 생성할 수 있다.
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ui:Button Grid.Column="0" Height="50" Width="145" Content="Read All" Background="LightPink" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>        // HorizontalAlignment는 정렬.
+            <ui:Button Grid.Column="1" Height="50" Width="145" Content="Read All" Background="LightPink" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+        </Grid>
+
+        <ui:Button Grid.Row="16" Height="50" Width="300" Background="ForestGreen" Content="Update" Foreground="White" Margin="0,0,0,10"/>
+
+        <ui:Button Grid.Row="17" Height="50" Width="300" Background="Red" Content="Delete" Foreground="White" Margin="0,0,0,10"/>
+
+
+    </Grid>
+
+    <Grid Grid.Column="1">
+        
+    </Grid>
+</Grid>
+```
+
+<br>
+
+> 추가 정보
+
+- x:Name 중복 안됨
+- Alt로 다중 행에서 입력 가능
